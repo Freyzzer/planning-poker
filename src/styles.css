@@ -1,1 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background: radial-gradient(circle, #330072 0%, #1F0D3F 70%);
+    width: 100%;
+    height: 100vh;
+    color: white;
+    font-family: 'poppins', sans-serif;
+}
+
+main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+}
+
+

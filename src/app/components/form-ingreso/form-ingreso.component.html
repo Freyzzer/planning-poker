@@ -1,0 +1,24 @@
+<div class="form-ingreso" [formGroup]="formIngreso" (submit)="onSubmit()">
+    <div class="form-ingreso__input">
+        <label for="nombre">Nombra la partida</label>
+        <input 
+            type="text"
+            id="nombre"
+            name="partida"
+            formControlName="partida"
+            required="required"
+        />
+        <div class="form-ingreso__input__error">
+            <span *ngIf="formIngreso.get('partida')?.touched && formIngreso.get('partida')?.hasError('required')">
+                El nombre de la partida es requerido.
+            </span>
+            <span *ngIf="formIngreso.get('partida')?.touched && formIngreso.get('partida')?.hasError('maxThreeNumbers')">
+                El nombre no puede contener más de 3 números.
+              </span>
+              <span *ngIf="formIngreso.get('partida')?.touched && formIngreso.get('partida')?.hasError('noOnlyNumbers')">
+                El nombre no puede contener solo números.
+              </span>
+        </div>
+    </div>
+    <button-submit-custom [text]="'Crear partida'"></button-submit-custom>
+</div>
