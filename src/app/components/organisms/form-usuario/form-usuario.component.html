@@ -1,0 +1,34 @@
+<div class="modal-backdrop" [formGroup]="formUsuario" *ngIf="isVisible">
+    <div class="modal">
+        <label for="nombre">Nombra la partida</label>
+        <input 
+            type="text"
+            id="nombre"
+            name="nombre"
+            formControlName="nombre"
+            required="required"
+        />
+        <div id="role-slector">
+            <label for="player">
+                <input type="checkbox" name="player" id="player" required value="player" formControlName="tipo">
+                Jugador
+            </label>
+            <label for="">
+                <input type="checkbox" name="spectator" id="spectator" required value="spectator" formControlName="tipo">
+                Espectador
+            </label>
+        </div>
+        <div class="form-ingreso__input__error">
+            <span *ngIf="formUsuario.get('partida')?.touched && formUsuario.get('partida')?.hasError('required')">
+                El nombre es requerido.
+            </span>
+            <span *ngIf="formUsuario.get('partida')?.touched && formUsuario.get('partida')?.hasError('maxThreeNumbers')">
+                El nombre no puede contener más de 3 números.
+              </span>
+              <span *ngIf="formUsuario.get('partida')?.touched && formUsuario.get('partida')?.hasError('noOnlyNumbers')">
+                El nombre no puede contener solo números.
+              </span>
+        </div>
+        <button-submit-custom [text]="'Crear Usuario'" (clickEvent)="onSubmit()"></button-submit-custom>
+    </div>
+</div>

@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+
 
 @Component({
   selector: 'button-submit-custom',
@@ -9,4 +10,9 @@ import { Component, Input } from '@angular/core';
 })
 export class ButtonSubmitCustomComponent {
   @Input() text: string = 'Submit';
+  @Output() clickEvent = new EventEmitter<void>();
+
+  onClick() {
+    this.clickEvent.emit(); // Emitir el evento al componente padre
+  }
 }

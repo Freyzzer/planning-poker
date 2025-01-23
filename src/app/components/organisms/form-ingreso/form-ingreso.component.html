@@ -1,4 +1,4 @@
-<div class="form-ingreso" [formGroup]="formIngreso" (submit)="onSubmit()">
+<div class="form-ingreso" [formGroup]="formIngreso">
     <div class="form-ingreso__input">
         <label for="nombre">Nombra la partida</label>
         <input 
@@ -20,5 +20,5 @@
               </span>
         </div>
     </div>
-    <button-submit-custom [text]="'Crear partida'"></button-submit-custom>
+    <button-submit-custom [text]="'Crear partida'" (clickEvent)="onSubmit()"></button-submit-custom>
 </div>

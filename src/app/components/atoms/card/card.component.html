@@ -1,0 +1,18 @@
+<div class="container">
+    <h2>Elige una carta 👇</h2>
+    <div
+      class="cards"
+      (keypress)="handleKeyPress($event)"
+      
+    >
+      <div
+        *ngFor="let card of cards; let i = index"
+        class=""   
+      >
+        <button (click)="toggleCardSelection(i)" class="card">
+            <span>{{ card }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  

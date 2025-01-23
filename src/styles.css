@@ -14,11 +14,19 @@ body{
 }
 
 main{
-    display: flex;
-    justify-content: center;
-    align-items: center;
     height: 100vh;
     width: 100%;
 }
+
+app-home-template{
+    height: 100vh;
+    width: 100%;
+}
+
+app-table{
+    height: 50%;
+    width: 100%;
+}
+
 
 
