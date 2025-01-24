@@ -5,8 +5,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   selector: 'button-submit-custom',
   standalone: true,
   imports: [],
-  templateUrl: './button-submit-custom.component.html',
-  styleUrl: './button-submit-custom.component.css'
+  templateUrl: './button-submit-custom.component.html'
 })
 export class ButtonSubmitCustomComponent {
   @Input() text: string = 'Submit';

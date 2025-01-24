@@ -1,7 +1,7 @@
 <div class="container">
-    <h2>Elige una carta 👇</h2>
+    <h2 class="text-2xl font-semibold">Elige una carta 👇</h2>
     <div
-      class="cards"
+      class="flex justify-center gap-3"
       (keypress)="handleKeyPress($event)"
       
     >
@@ -9,7 +9,7 @@
         *ngFor="let card of cards; let i = index"
         class=""   
       >
-        <button (click)="toggleCardSelection(i)" class="card">
+        <button (click)="toggleCardSelection(i)" class="w-14 h-22 flex items-center justify-center bg-transparent border-[2px] border-[#9c4fff] rounded-md text-white font-bold cursor-pointer hover:bg-[#9D9DA199] focus:bg-[#9c4fff] transition delay-[0.3] ease-in hover:-translate-y-2">
             <span>{{ card }}</span>
         </button>
       </div>

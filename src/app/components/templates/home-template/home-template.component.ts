@@ -9,7 +9,6 @@ import { BodyGameComponent } from '../../organisms/body-game/body-game.component
   standalone: true,
   imports: [NavbarComponent, BodyGameComponent, FormUsuarioComponent,ReactiveFormsModule],
   templateUrl: './home-template.component.html',
-  styleUrl: './home-template.component.css'
 })
 export class HomeTemplateComponent {
   formUsuario = new FormGroup({

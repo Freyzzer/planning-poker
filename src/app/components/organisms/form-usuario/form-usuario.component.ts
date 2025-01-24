@@ -8,7 +8,6 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule, ButtonSubmitCustomComponent],
   templateUrl: './form-usuario.component.html',
-  styleUrl: './form-usuario.component.css'
 })
 export class FormUsuarioComponent {
   isVisible:boolean = true;
@@ -22,17 +21,16 @@ export class FormUsuarioComponent {
       this.maxThreeNumbers(),
       this.noOnlyNumbers()
     ]), // Campo para el nombre de la partida
-    tipo: new FormControl('')
+    modoVisualizacion: new FormControl('')
   });
   
   onSubmit() {
-    const nombrePartida = this.formUsuario.value.nombre;
-    const tipoUsuario = this.formUsuario.value.tipo
+    const nombreUsuario = this.formUsuario.value.nombre;
+    const tipoUsuario = this.formUsuario.value.modoVisualizacion
 
-    if(nombrePartida && tipoUsuario)
+    if(nombreUsuario && tipoUsuario)
     {
-      console.log('Partida ingresada: ', nombrePartida);
-      alert('Partida ingresada: ' + nombrePartida);
+      console.log('Usuario: ', nombreUsuario);
       this.isVisible = false
       this.formUsuario.reset(); // Reinicia el formulario
     }

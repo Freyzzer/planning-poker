@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+
 * {
-    margin: 0;
-    padding: 0;
     box-sizing: border-box;
 }
 
@@ -13,19 +13,13 @@ body{
     font-family: 'poppins', sans-serif;
 }
 
-main{
-    height: 100vh;
-    width: 100%;
+@theme {
+    --color-primary-500 : #330072;
 }
 
 app-home-template{
-    height: 100vh;
     width: 100%;
-}
-
-app-table{
-    height: 50%;
-    width: 100%;
+    height: 100%;
 }
 
 

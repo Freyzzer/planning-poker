@@ -6,7 +6,6 @@ import { RouterOutlet } from '@angular/router';
   standalone: true,
   imports: [RouterOutlet],
   templateUrl: './game.component.html',
-  styleUrl: './game.component.css'
 })
 export class GameComponent {
   nombre:string = ''

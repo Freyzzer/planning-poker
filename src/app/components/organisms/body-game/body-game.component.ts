@@ -8,7 +8,6 @@ import { CardComponent } from '../../atoms/card/card.component';
   standalone: true,
   imports: [TableComponent, CardComponent],
   templateUrl: './body-game.component.html',
-  styleUrl: './body-game.component.css'
 })
 export class BodyGameComponent {
 

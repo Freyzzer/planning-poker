@@ -6,7 +6,6 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './card.component.html',
-  styleUrl: './card.component.css'
 })
 export class CardComponent {
   cards: (string | number)[] = ['0', '10', '20', '30', '40', '50', '60', '70', '80', '90', '100'];

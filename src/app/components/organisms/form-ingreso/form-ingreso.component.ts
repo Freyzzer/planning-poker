@@ -10,8 +10,7 @@ import { Router } from '@angular/router';
   selector: 'app-form-ingreso',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule, ButtonSubmitCustomComponent],
-  templateUrl: './form-ingreso.component.html',
-  styleUrl: './form-ingreso.component.css'
+  templateUrl: './form-ingreso.component.html'
 })
 export class FormIngresoComponent {
   formIngreso = new FormGroup({
