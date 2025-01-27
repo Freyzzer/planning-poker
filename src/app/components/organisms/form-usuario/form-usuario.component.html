@@ -22,10 +22,10 @@
       <label class="flex items-center gap-2">
         <input 
           type="radio" 
-          name="player" 
-          required 
+          name="views" 
           value="player" 
           formControlName="views"
+          required = 'required' 
           class="text-blue-600 focus:ring-blue-500 focus:ring-2"
         />
         Jugador
@@ -33,10 +33,10 @@
       <label class="flex items-center gap-2">
         <input 
           type="radio" 
-          name="spectator" 
-          required 
+          name="views" 
           value="spectator" 
           formControlName="views"
+          required = 'required' 
           class="text-blue-600 focus:ring-blue-500 focus:ring-2"
         />
         Espectador
@@ -49,6 +49,12 @@
       *ngIf="formUser.get('name')?.errors && formUser.get('name')?.dirty"
     >
       <span *ngFor="let error of getFormErrors('name')">{{ error }}</span>
+    </div>
+    <div 
+      class="text-red-500 overflow-hidden text-ellipsis"
+      *ngIf="formUser.get('views')?.errors && formUser.get('views')?.dirty"
+    >
+      <span *ngFor="let error of getFormErrors('views')">{{ error }}</span>
     </div>
 
     <!-- Botón para enviar -->

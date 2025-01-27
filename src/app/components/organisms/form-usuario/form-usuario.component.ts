@@ -22,7 +22,7 @@ export class FormUsuarioComponent {
   @Input() isVisible:boolean = true;
   formUser: FormGroup;
   players$: Observable<any>;
-  @Output() onRegister: EventEmitter<{ nombre: string; tipo: string }> = new EventEmitter();
+  @Output() onRegister: EventEmitter<{ name: string; views: string }> = new EventEmitter();
   
   ngOnInit(): void {
     console.log(this.route.snapshot.paramMap.get('id'));
@@ -38,7 +38,7 @@ export class FormUsuarioComponent {
         this.maxThreeNumbers(),
         this.noOnlyNumbers()
       ]], // Campo para el nombre de la partida
-      views: new FormControl('')
+      views: new FormControl('',[Validators.required])
     })
     this.players$ = this.store.pipe(select(selectPlayers));
   }
@@ -48,7 +48,8 @@ export class FormUsuarioComponent {
     const id:string = this.route.snapshot.paramMap.get('id') ?? '';
     const idPlayer = crypto.randomUUID()
     const user = {id:idPlayer,name:this.formUser.value.name, view:this.formUser.value.views, card:null,isAdmin:true}
-    if(user)
+
+    if(this.formUser.valid)
     {
       localStorage.setItem('id',idPlayer)
       this.store.dispatch(addPlayer({gameId:id ,player: user }))
@@ -86,15 +87,27 @@ export class FormUsuarioComponent {
   getFormErrors(controlName: string): string[] {
     const control = this.formUser.get(controlName);
     if (!control?.errors || (!control.touched && !control.dirty)) return [];
-  
-    const errorMessages: { [key: string]: string } = {
-      required: 'El nombre de la game es requerido.',
-      minlength: 'El nombre debe tener al menos 5 caracteres.',
-      maxlength: 'El nombre no puede exceder los 20 caracteres.',
-      pattern: 'El nombre no puede tener caracteres especiales.',
-      maxThreeNumbers: 'El nombre no puede contener más de 3 números.',
-      noOnlyNumbers: 'El nombre no puede contener solo números.',
-    };
+    
+    // Define los mensajes de error según el campo
+    let errorMessages: { [key: string]: string } = {};
+    if (controlName === 'name') {
+      errorMessages = {
+        required: 'El nombre de la game es requerido.',
+        minlength: 'El nombre debe tener al menos 5 caracteres.',
+        maxlength: 'El nombre no puede exceder los 20 caracteres.',
+        pattern: 'El nombre no puede tener caracteres especiales.',
+        maxThreeNumbers: 'El nombre no puede contener más de 3 números.',
+        noOnlyNumbers: 'El nombre no puede contener solo números.',
+      };
+    } else if (controlName === 'views') {
+      errorMessages = {
+        required: 'Por favor elija una opción.',
+      };
+    } else {
+      errorMessages = {
+        required: 'Por favor elija un opción.',
+      };
+    }
   
     return Object.keys(control.errors).map((errorKey) => errorMessages[errorKey]);
   }

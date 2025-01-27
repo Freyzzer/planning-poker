@@ -12,8 +12,8 @@ import { BodyGameComponent } from '../../organisms/body-game/body-game.component
 })
 export class HomeTemplateComponent {
   formUsuario = new FormGroup({
-      nombre: new FormControl(''), // Campo para el nombre de la partida
-      tipo: new FormControl('')
+      name: new FormControl(''), // Campo para el nombre de la partida
+      views: new FormControl('')
     });
 
     isVisible: boolean = false;
@@ -21,10 +21,10 @@ export class HomeTemplateComponent {
     // Método para alternar la visibilidad del formulario
     
 
-    registerPlayer(event: { nombre: string; tipo: string }): void {
+    registerPlayer(event: { name: string; views: string }): void {
       this.formUsuario.patchValue({
-        nombre: event.nombre,
-        tipo: event.tipo,
+        name: event.name,
+        views: event.views,
       });
   
       // Opcional: Imprimir el valor actual del formulario en la consola
