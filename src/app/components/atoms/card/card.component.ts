@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { selectCard } from '../../../storage/action/game.actions';
+import { Store } from '@ngrx/store';
+
 
 @Component({
   selector: 'app-card',
@@ -8,15 +11,24 @@ import { CommonModule } from '@angular/common';
   templateUrl: './card.component.html',
 })
 export class CardComponent {
-  cards: (string | number)[] = ['0', '10', '20', '30', '40', '50', '60', '70', '80', '90', '100'];
+  scoreOptions = ['0', '1', '3', '5', '8', '13', '21', '34', '55', '89', '?', '☕'];
   selectedCards: number[] = [];
+  playerId:string ='';
+  
+  constructor(private readonly store: Store) {}
+  
+  onSelectCard(card: string) {
+    this.playerId = localStorage.getItem('id') ?? '';
+    console.log("selecciono: ", selectCard({ playerId: this.playerId, card }))
+    this.store.dispatch(selectCard({ playerId: this.playerId, card }));
+  }
 
   toggleCardSelection(index: number): void {
     if (this.selectedCards) {
       // Remove card from selection
       console.log('Removing card from selection:', index);
-       this.cards.splice(index, 1);
-       console.log(this.cards)
+       this.scoreOptions.splice(index, 1);
+       console.log(this.scoreOptions)
     } else {
       // Add card to selection
       

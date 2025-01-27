@@ -1,34 +1,60 @@
-<div class="modal-backdrop" [formGroup]="formUsuario"   *ngIf="isVisible">
-    <div class="modal">
-        <label for="nombre">Nombra la partida</label>
-        <input 
-            type="text"
-            id="nombre"
-            name="nombre"
-            formcontrolname="nombre"
-            required="required"
-        />
-        <div id="role-slector">
-            <label for="player">
-                <input type="checkbox" name="player" id="player" required value="player" formControlName="modoVisualizacion">
-                Jugador
-            </label>
-            <label for="">
-                <input type="checkbox" name="spectator" id="spectator" required value="spectator" formControlName="modoVisualizacion">
-                Espectador
-            </label>
-        </div>
-        <div class="form-ingreso__input__error">
-            <span *ngIf="formUsuario.get('partida')?.touched && formUsuario.get('partida')?.hasError('required')">
-                El nombre es requerido.
-            </span>
-            <span *ngIf="formUsuario.get('partida')?.touched && formUsuario.get('partida')?.hasError('maxThreeNumbers')">
-                El nombre no puede contener más de 3 números.
-              </span>
-              <span *ngIf="formUsuario.get('partida')?.touched && formUsuario.get('partida')?.hasError('noOnlyNumbers')">
-                El nombre no puede contener solo números.
-              </span>
-        </div>
-        <button-submit-custom [text]="'Crear Usuario'" (clickEvent)="onSubmit()"></button-submit-custom>
+<div 
+  class="fixed inset-0 flex items-center justify-center bg-transparent z-50" 
+  [formGroup]="formUser" 
+  *ngIf="isVisible"
+>
+  <div class="bg-bf-primary border-3 border-[#BB65FF] p-6 rounded-2xl shadow-xl w-full max-w-md space-y-4">
+    <!-- Input para el nombre -->
+    <div>
+      <label for="name" class="block text-md text-white font-semibold mb-1">Tu Nombre</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        formControlName="name"
+        required="required"
+        class="w-full px-4 py-2 border border-primary-500 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+      />
     </div>
+
+    <!-- Selección de rol -->
+    <div id="role-selector" class="flex gap-x-10 justify-around">
+      <label class="flex items-center gap-2">
+        <input 
+          type="radio" 
+          name="player" 
+          required 
+          value="player" 
+          formControlName="views"
+          class="text-blue-600 focus:ring-blue-500 focus:ring-2"
+        />
+        Jugador
+      </label>
+      <label class="flex items-center gap-2">
+        <input 
+          type="radio" 
+          name="spectator" 
+          required 
+          value="spectator" 
+          formControlName="views"
+          class="text-blue-600 focus:ring-blue-500 focus:ring-2"
+        />
+        Espectador
+      </label>
+    </div>
+
+    <!-- Mensajes de error -->
+    <div 
+      class="text-red-500 overflow-hidden text-ellipsis"
+      *ngIf="formUser.get('name')?.errors && formUser.get('name')?.dirty"
+    >
+      <span *ngFor="let error of getFormErrors('name')">{{ error }}</span>
+    </div>
+
+    <!-- Botón para enviar -->
+    <button-submit-custom 
+      [text]="'sEGUIR'" 
+      (clickEvent)="onSubmit()" 
+    ></button-submit-custom>
+  </div>
 </div>

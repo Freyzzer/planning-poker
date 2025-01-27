@@ -15,6 +15,11 @@ body{
 
 @theme {
     --color-primary-500 : #330072;
+    --color-bf-primary: #1f0d3f;
+}
+
+app-body-game{
+    height: fit-content;
 }
 
 app-home-template{

@@ -1,8 +1,16 @@
-<div class="h-[500px] w-[600px]">
-    <div class="relative w-full h-[60%] rounded-full bg-[#1F0D3F99] border border-black">
-      <!-- Pseudo-elementos para el efecto de borde -->
-      <div class="absolute inset-[-20px] rounded-full  border-[3px] border-[#6429CD99]"></div>
-      <div class="absolute inset-[-60px] rounded-full border-[3px] border-[rgba(156,79,255,0.6)]"></div>
-    </div>
-</div>
+<div class="w-full h-full flex justify-center items-center mb-120">
+  <div class="bg-bf-primary w-full rounded-full  border border-black">
+    <p class="px-60 py-30"></p>
+  </div>
+  <ng-container *ngIf="players$ | async as players">
+        <div
+          *ngFor="let player of players; let i = index"
+          [style.transform]="getPositionStyle(i, players.length)"
+          class="absolute top-auto right-auto transform flex flex-col items-center"
+        >
+          <app-card-player [namePlayer]="player.name" [viewPlayer]="player.view"></app-card-player>
+        </div>
+    </ng-container>
   
+
+</div>

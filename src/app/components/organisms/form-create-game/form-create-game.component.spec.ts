@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormIngresoComponent } from './form-ingreso.component';
+import { FormCreateGameComponent } from './form-create-game.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
 describe('FormIngresoComponent', () => {
-  let component: FormIngresoComponent;
-  let fixture: ComponentFixture<FormIngresoComponent>;
+  let component: FormCreateGameComponent;
+  let fixture: ComponentFixture<FormCreateGameComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FormIngresoComponent, ReactiveFormsModule]
+      imports: [FormCreateGameComponent, ReactiveFormsModule]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(FormIngresoComponent);
+    fixture = TestBed.createComponent(FormCreateGameComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -43,12 +43,6 @@ describe('FormIngresoComponent', () => {
     form.get('partida')?.setValue('Partida1234');
     expect(form.valid).toBeFalse();
   });
-
-  // it('debería ser inválido si el nombre tiene menos de 5 caracteres', () => {
-  //   const form = component.formIngreso;
-  //   form.get('partida')?.setValue('1234');
-  //   expect(form.valid).toBeFalse();
-  // });
 
   it('debería ser inválido si el nombre contiene solo números', () => {
     const form = component.formIngreso;

@@ -8,7 +8,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   templateUrl: './button-submit-custom.component.html'
 })
 export class ButtonSubmitCustomComponent {
-  @Input() text: string = 'Submit';
+  @Input() text: string = '';
   @Output() clickEvent = new EventEmitter<void>();
 
   onClick() {

@@ -16,6 +16,11 @@ export class HomeTemplateComponent {
       tipo: new FormControl('')
     });
 
+    isVisible: boolean = false;
+
+    // Método para alternar la visibilidad del formulario
+    
+
     registerPlayer(event: { nombre: string; tipo: string }): void {
       this.formUsuario.patchValue({
         nombre: event.nombre,

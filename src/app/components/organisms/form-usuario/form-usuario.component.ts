@@ -1,7 +1,15 @@
-import { Component,EventEmitter, Output } from '@angular/core';
+import { Component,EventEmitter, Output, Input } from '@angular/core';
 import { ButtonSubmitCustomComponent } from '../../atoms/button-submit-custom/button-submit-custom.component';
-import {FormControl, ReactiveFormsModule, FormGroup, Validators,AbstractControl, ValidationErrors } from '@angular/forms';
+import {FormControl, ReactiveFormsModule, FormGroup, Validators,AbstractControl, ValidationErrors, FormBuilder } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Store, select } from '@ngrx/store';
+import { addPlayer } from '../../../storage/action/game.actions';
+import {GameState} from'../../../storage/state/game.state'
+import { selectPlayers } from '../../../storage/selectors/game.selectors';
+import { Observable } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+
+
 
 @Component({
   selector: 'app-form-usuario',
@@ -9,30 +17,45 @@ import { CommonModule } from '@angular/common';
   imports: [ReactiveFormsModule, CommonModule, ButtonSubmitCustomComponent],
   templateUrl: './form-usuario.component.html',
 })
-export class FormUsuarioComponent {
-  isVisible:boolean = true;
-  @Output() onRegister: EventEmitter<{ nombre: string; tipo: string }> = new EventEmitter();
 
-  formUsuario = new FormGroup({
-    nombre: new FormControl('', [Validators.required,
-      Validators.minLength(3),
-      Validators.maxLength(20),
-      // Validators.pattern('^[a-zA-Z0-9]*$'),
-      this.maxThreeNumbers(),
-      this.noOnlyNumbers()
-    ]), // Campo para el nombre de la partida
-    modoVisualizacion: new FormControl('')
-  });
+export class FormUsuarioComponent {
+  @Input() isVisible:boolean = true;
+  formUser: FormGroup;
+  players$: Observable<any>;
+  @Output() onRegister: EventEmitter<{ nombre: string; tipo: string }> = new EventEmitter();
+  
+  ngOnInit(): void {
+    console.log(this.route.snapshot.paramMap.get('id'));
+  }
+
+  constructor(private readonly route: ActivatedRoute, private readonly fb:FormBuilder, private readonly store:Store<GameState>){
+    this.formUser = this.fb.group({
+      name: ['', [
+        Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(20),
+        Validators.pattern('^[a-zA-Z0-9]*$'), // Solo letras y números
+        this.maxThreeNumbers(),
+        this.noOnlyNumbers()
+      ]], // Campo para el nombre de la partida
+      views: new FormControl('')
+    })
+    this.players$ = this.store.pipe(select(selectPlayers));
+  }
+
   
   onSubmit() {
-    const nombreUsuario = this.formUsuario.value.nombre;
-    const tipoUsuario = this.formUsuario.value.modoVisualizacion
-
-    if(nombreUsuario && tipoUsuario)
+    const id:string = this.route.snapshot.paramMap.get('id') ?? '';
+    const idPlayer = crypto.randomUUID()
+    const user = {id:idPlayer,name:this.formUser.value.name, view:this.formUser.value.views, card:null,isAdmin:true}
+    if(user)
     {
-      console.log('Usuario: ', nombreUsuario);
+      localStorage.setItem('id',idPlayer)
+      this.store.dispatch(addPlayer({gameId:id ,player: user }))
+      this.store.pipe(select(selectPlayers)).subscribe(players => {
+        console.log('Jugadores actualizados:', players);
+      });
       this.isVisible = false
-      this.formUsuario.reset(); // Reinicia el formulario
     }
   }
 
@@ -58,5 +81,21 @@ export class FormUsuarioComponent {
       }
       return null;
     };
+  }
+
+  getFormErrors(controlName: string): string[] {
+    const control = this.formUser.get(controlName);
+    if (!control?.errors || (!control.touched && !control.dirty)) return [];
+  
+    const errorMessages: { [key: string]: string } = {
+      required: 'El nombre de la game es requerido.',
+      minlength: 'El nombre debe tener al menos 5 caracteres.',
+      maxlength: 'El nombre no puede exceder los 20 caracteres.',
+      pattern: 'El nombre no puede tener caracteres especiales.',
+      maxThreeNumbers: 'El nombre no puede contener más de 3 números.',
+      noOnlyNumbers: 'El nombre no puede contener solo números.',
+    };
+  
+    return Object.keys(control.errors).map((errorKey) => errorMessages[errorKey]);
   }
 }
