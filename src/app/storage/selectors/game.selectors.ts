@@ -10,7 +10,6 @@ export const selectGameById = (gameId: string) =>
     state.games.find(game => game.id === gameId)
   );
 
-
 export const selectGame = createSelector(
   selectGameState,
   (state: GameState) => state.games,

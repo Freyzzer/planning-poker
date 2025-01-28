@@ -22,7 +22,7 @@ export class FormUsuarioComponent {
   @Input() isVisible:boolean = true;
   formUser: FormGroup;
   players$: Observable<any>;
-  @Output() onRegister: EventEmitter<{ name: string; views: string }> = new EventEmitter();
+  @Output() onRegister: EventEmitter<{ name: any; views: any }> = new EventEmitter();
   
   ngOnInit(): void {
     console.log(this.route.snapshot.paramMap.get('id'));
@@ -48,7 +48,11 @@ export class FormUsuarioComponent {
     const id:string = this.route.snapshot.paramMap.get('id') ?? '';
     const idPlayer = crypto.randomUUID()
     const user = {id:idPlayer,name:this.formUser.value.name, view:this.formUser.value.views, card:null,isAdmin:true}
-
+    const newUser = {
+      name: this.formUser.value.name ?? '',
+      views: this.formUser.value.views ?? '',
+    };
+    this.onRegister.emit(newUser);
     if(this.formUser.valid)
     {
       localStorage.setItem('id',idPlayer)

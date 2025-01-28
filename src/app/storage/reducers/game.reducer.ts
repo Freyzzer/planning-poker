@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { initialGameState } from '../state/game.state';
-import { selectCard, revealVoting, hideVoting,addPlayer, createGame } from '../action/game.actions';
+import { selectCard, revealVoting, hideVoting,addPlayer, createGame, toggleRevealVotes } from '../action/game.actions';
 
 export const gameReducer = createReducer(
   initialGameState,
@@ -21,6 +21,12 @@ export const gameReducer = createReducer(
     ...state,
     isVotingRevealed: false,
   })),
+
+  on(toggleRevealVotes, state => ({
+    ...state,
+    isVotingRevealed: !state.isVotingRevealed,
+  })),
+
   //Acción: Añadir Jugador
   on(addPlayer, (state, { gameId,player }) => ({
     ...state,

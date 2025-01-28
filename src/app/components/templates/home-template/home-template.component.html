@@ -1,5 +1,5 @@
 <div class="h-full">
     <app-navbar></app-navbar>
-    <app-body-game></app-body-game>
+    <app-body-game [view]="view"></app-body-game>
     <app-form-usuario (onRegister)="registerPlayer($event)" [isVisible]="true"></app-form-usuario>
 </div>

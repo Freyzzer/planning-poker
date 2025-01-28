@@ -13,6 +13,8 @@ export const revealVoting = createAction('[Game] Reveal Voting');
 // Acción para ocultar votaciones
 export const hideVoting = createAction('[Game] Hide Voting');
 
+export const toggleRevealVotes = createAction('[Game] Toggle Reveal Votes');
+
 //Accion de añadir un jugador a la partida
 console.log('playerrr')
 export const addPlayer = createAction(

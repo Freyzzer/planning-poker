@@ -1,6 +1,11 @@
 <div class="w-full h-full flex justify-center items-center mb-120">
-  <div class="bg-bf-primary w-full rounded-full  border border-black">
-    <p class="px-60 py-30"></p>
+  <div class="w-[1000px] h-[500px] rounded-full  border border-[#7444d6] flex justify-center items-center" >
+    <div class=" border border-[#9479e8] w-[90%] h-[85%] rounded-full flex justify-center items-center">
+      <div class="border border-[#6429cd]  w-[95%] h-[90%] bg-bf-primary rounded-full flex justify-center items-center">
+        <p class=""></p>
+        <app-button-custom *ngIf="view === 'player'" (reveal)="onRevealVotes($event)" ></app-button-custom>
+      </div>
+    </div>
   </div>
   <ng-container *ngIf="players$ | async as players">
         <div
@@ -8,7 +13,7 @@
           [style.transform]="getPositionStyle(i, players.length)"
           class="absolute top-auto right-auto transform flex flex-col items-center"
         >
-          <app-card-player [namePlayer]="player.name" [viewPlayer]="player.view"></app-card-player>
+          <app-card-player [namePlayer]="player.name"  [viewPlayer]="player.view" [score]="player.card" [isreveal]="isVotingRevealed"></app-card-player>
         </div>
     </ng-container>
   
