@@ -16,6 +16,7 @@ describe('BodyGameComponent', () => {
     mockStore = {
       select: jasmine.createSpy('select').and.returnValue(of([])), // Simula `select` devolviendo un observable vacío
       dispatch: jasmine.createSpy('dispatch'), // Simula `dispatch`
+      pipe: jasmine.createSpy('pipe').and.returnValue(of([])),
     };
     await TestBed.configureTestingModule({
       imports: [

@@ -51,13 +51,23 @@ describe('HomeTemplateComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should update form values using registerPlayer', () => {
-    const mockEvent = { name: 'John12', views: 'player' };
-    component.registerPlayer(mockEvent);
+  it('debería crear el componente', () => {
+    expect(component).toBeTruthy();
+  });
 
-    expect(component.formUsuario.value).toEqual({
-      name: 'John12',
-      views: 'player',
-    });
+  it('debería inicializar la variable view como una cadena vacía', () => {
+    expect(component.view).toBe('');
+  });
+
+  it('debería actualizar la variable view al llamar registerPlayer', () => {
+    const mockEvent = { name: 'Jugador1', views: 'game-view' };
+    component.registerPlayer(mockEvent);
+    expect(component.view).toBe('game-view');
+  });
+
+  it('debería asignar una cadena vacía si views es null en registerPlayer', () => {
+    const mockEvent = { name: 'Jugador1', views: null };
+    component.registerPlayer(mockEvent);
+    expect(component.view).toBe('');
   });
 });

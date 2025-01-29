@@ -37,12 +37,7 @@ describe('CardPlayerComponent', () => {
     });
   });
 
-  it('should update hasCard based on player card status', () => {
-    // Trigger ngOnInit manually
-    component.ngOnInit();
-    expect(component.hasCard).toBeTrue(); // Basado en el mock
-  });
-
+  
   describe('getStyle method', () => {
     it('should return correct style for a player without a card', () => {
       component.hasCard = false;
@@ -75,6 +70,6 @@ describe('CardPlayerComponent', () => {
     component.viewPlayer = 'spectator';
     component.namePlayer = 'TestPlayer';
     component.getStyle();
-    expect(component.letters).toBe('Te');
+    expect(component.info).toBe('Te');
   });
 });

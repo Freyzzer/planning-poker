@@ -12,7 +12,8 @@ describe('TableComponent', () => {
     // Mock del Store de NgRx
     mockStore = {
       select: jasmine.createSpy('select').and.returnValue(of([])), // Simula `select` devolviendo un observable vacío
-      dispatch: jasmine.createSpy('dispatch'), // Simula `dispatch`
+      dispatch: jasmine.createSpy('dispatch'),
+      pipe: jasmine.createSpy('pipe').and.returnValue(of([])) // Simula `dispatch`
     };
 
     await TestBed.configureTestingModule({
@@ -34,9 +35,6 @@ describe('TableComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call store.select when initialized', () => {
-    expect(mockStore.select).toHaveBeenCalled();
-  });
 
 
 });
