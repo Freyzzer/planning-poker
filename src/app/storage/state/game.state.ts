@@ -23,7 +23,7 @@ export interface Player {
   export const initialGameState: GameState = {
     players: [
       { id: '1', name: 'David', view: 'spectator',card: null, isAdmin: false }, // Ejemplo de jugador admin
-      { id: '2', name: 'Miguel', view: 'player',card: '3', isAdmin: false }, // Ejemplo de jugador admin
+      { id: '2', name: 'Miguel', view: 'spectator',card: null, isAdmin: false }, // Ejemplo de jugador admin
       { id: '3', name: 'Maria', view: 'player',card: '8', isAdmin: false }, // Ejemplo de jugador admin
       { id: '4', name: 'JuanSe', view: 'player',card: '55', isAdmin: false }, // Ejemplo de jugador admin
       { id: '5', name: 'Melissa', view: 'player',card: '89', isAdmin: false }, // Ejemplo de jugador admin/ Ejemplo de jugador admin

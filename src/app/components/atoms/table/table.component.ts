@@ -90,9 +90,9 @@ export class TableComponent {
 
   getPositionStyle(index: number, total: number): string {
 
-    const angle = (index / total) * 360; // Ángulo de posición
-    const radiusY = 400;
-    const radiusX = 550; // Radio del círculo en px // Radio del círculo en px
+    const angle = (360 / total) * index; // Ángulo de posición
+    const radiusY = 260;
+    const radiusX = 380; // Radio del círculo en px // Radio del círculo en px
     const x = radiusX * Math.cos((angle * Math.PI) / 180); // Coordenada X
     const y = radiusY * Math.sin((angle * Math.PI) / 180); // Coordenada Y
     return `translate(${x}px, ${y}px)`;

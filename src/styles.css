@@ -19,7 +19,11 @@ body{
 }
 
 app-body-game{
-    height: fit-content;
+    height: 100%;
+}
+
+#arreglo{
+    height: 90%;
 }
 
 app-home-template{

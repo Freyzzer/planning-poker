@@ -2,14 +2,14 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { selectCard } from '../../../storage/action/game.actions';
 import { select, Store } from '@ngrx/store';
-import { Observable, take } from 'rxjs';
+import { Observable, take, map } from 'rxjs';
 import { selectIsVotingRevealed, selectPlayers } from '../../../storage/selectors/game.selectors';
 import { GameState, Player } from '../../../storage/state/game.state';
 
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,],
   templateUrl: './card.component.html',
 })
 export class CardComponent {
@@ -20,13 +20,36 @@ export class CardComponent {
   cardVotes: { [key: string]: number } = {}; // Guardar los votos por carta
   total:number  = 0;
   id = ''
+  cardsWithVotes$: Observable<{ card: string; votes: number }[]>;
   players$: Observable<any>
   isPlayer = true;
   @Input() view: string = '';
+  averageVote$: Observable<number>;
 
   constructor(private readonly store: Store<GameState>) {
     this.isVotingRevealed$ = this.store.pipe(select(selectIsVotingRevealed));
     this.players$ = this.store.pipe(select(selectPlayers));
+
+     // Calcular cartas con votos y promedio
+     this.cardsWithVotes$ = this.players$.pipe(
+      map(players => {
+        const cardVotes: { [key: string]: number } = {};
+        players.forEach((player: Player) => {
+          if (player.card) {
+            cardVotes[player.card] = (cardVotes[player.card] || 0) + 1;
+          }
+        });
+        return Object.entries(cardVotes).map(([card, votes]) => ({ card, votes }));
+      })
+    );
+
+    this.averageVote$ = this.players$.pipe(
+      map(players => {
+        const total = players.reduce((sum: number, player: Player) => sum + (player.card ? +player.card : 0), 0);
+        const count = players.filter((player: Player) => player.card).length;
+        return count > 0 ? total / count : 0;
+      })
+    );
   }
 
    private withPlayers(callback: (players: Player[]) => void): void{
@@ -37,39 +60,13 @@ export class CardComponent {
     this.store.pipe(select(selectPlayers)).subscribe(players => {
       console.log('Jugadores actualizados:', players);
       this.id = localStorage.getItem('id') ?? '';
-
-      players.forEach( player =>{
-        if(player.id === this.id)
-        {
-          this.view = player.view ?? '';
-          console.log('manin matese', this.view)
-        }
-      })
+      const player = players.find(p => p.id === this.id);
+      if (player) {
+        this.view = player.view ?? '';
+      }
     });
-
-    if (this.isVotingRevealed$) {
-      this.calculateCardVotes();
-    } else {
-      this.resetVotes();
-    }
   }
 
-   calculateCardVotes(): number{
-    // Escucha cambios en el estado de revelación y calcula las cartas más votadas
-    this.cardVotes = {} // reiniciar el conteo
-    let index = 0;
-    this.store.pipe(select(selectPlayers),take(1)).subscribe(players => {
-
-      players.forEach(player => {
-        if (player.card) {
-          this.cardVotes[player.card] = (this.cardVotes[player.card] || 0) + 1;
-          this.total = +(player.card) + this.total; 
-          index++;
-        }
-      });
-    });
-    return this.total/index
-  }
 
   // Método para reiniciar votos
   private resetVotes(): void {

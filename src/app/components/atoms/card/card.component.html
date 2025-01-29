@@ -1,10 +1,9 @@
-<div class="container flex flex-col items-center justify-around" >
+<div class=" flex flex-col items-center justify-around w-full mt-10" >
   <div class="flex  gap-20" *ngIf="isVotingRevealed$ | async; else allCards" >
     <div class="flex justify-center items-center gap-4">
-      <div *ngFor="let card of getCardsWithVotes()" (keydown)="onKeyDown($event)" class="flex flex-col justify-center items-center">
+      <div *ngFor="let card of cardsWithVotes$ | async" (keydown)="onKeyDown($event)" class="flex flex-col justify-center items-center">
         <button
-          (click)="onSelectCard(card.card)"
-          class="w-14 h-22 flex flex-col items-center justify-center bg-transparent border-[2px] border-[#9c4fff] rounded-md text-white font-bold cursor-pointer hover:bg-[#9D9DA199] focus:bg-[#9c4fff] transition delay-[0.3] ease-in hover:-translate-y-2"
+          class="w-14 h-22 flex flex-col items-center justify-center bg-transparent shadow-sm shadow-[#BB65FF]/50 border-[2px] border-[#9c4fff] rounded-md text-white font-bold cursor-pointer hover:bg-[#9D9DA199] focus:bg-[#9c4fff] transition delay-[0.3] ease-in hover:-translate-y-2"
         >
           <span>{{ card.card }}</span>
         </button>
@@ -13,14 +12,17 @@
     </div>
     <div class="flex flex-col items-center gap-y-4">
       <span>Promedio:</span>
-      <span class="text-2xl font-bold">{{ calculateCardVotes() }}</span>
+      <span class="text-2xl font-bold">{{ averageVote$ | async }}</span>
     </div>
+  </div>
+  <div *ngIf="view === 'player'">
+    
   </div>
   <ng-template #allCards >
     <!-- Mostrar todas las opciones de cartas -->
-     <div *ngIf="view === 'player'">
+     <div *ngIf="view === 'player'" class=" flex flex-col items-center justify-around w-full">
 
-       <h2 class="text-2xl font-semibold">Elige una carta 👇</h2>
+       <h2 class="text-2xl font-semibold mb-4">Elige una carta 👇</h2>
        <div class="flex justify-center gap-3" >
          <div
            *ngFor="let card of scoreOptions"
@@ -30,7 +32,7 @@
          >
            <button
              (click)="onSelectCard(card)"
-             class="w-14 h-22 flex items-center justify-center bg-transparent border-[2px] border-[#9c4fff] rounded-md text-white font-bold cursor-pointer hover:bg-[#9D9DA199] focus:bg-[#9c4fff] transition delay-[0.3] ease-in hover:-translate-y-2"
+             class="w-14 h-22 flex items-center justify-center bg-transparent shadow-lg shadow-[#BB65FF]/10 border-[2px] border-[#9c4fff] rounded-md text-white font-bold cursor-pointer hover:bg-[#9D9DA199] focus:bg-[#9c4fff] focus:-translate-y-2  transition delay-[0.3] ease-in hover:-translate-y-2"
            >
              <span>{{ card }}</span>
            </button>

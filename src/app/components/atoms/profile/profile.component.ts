@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ButtonSubmitCustomComponent } from '../button-submit-custom/button-submit-custom.component';
 import { updatePlayerView } from '../../../storage/action/game.actions';
 import { Store } from '@ngrx/store';
@@ -17,6 +17,7 @@ export class ProfileComponent {
   isvisible =false;
   id = '';
   form:FormGroup;
+  @Input() letters='';
 
   constructor(private readonly store:Store<GameState>, private readonly fb: FormBuilder){
     this.form = this.fb.group({

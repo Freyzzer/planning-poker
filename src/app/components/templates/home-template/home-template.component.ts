@@ -13,19 +13,12 @@ import { CommonModule } from '@angular/common';
 })
 export class HomeTemplateComponent {
     view = '';
-
+    name = ''
     isVisible: boolean = false;
-
-    ngOnInit(): void {
-      //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-      //Add 'implements OnInit' to the class.
-      console.log('asdasfdasafd', this.view)
-    }
-    // Método para alternar la visibilidad del formulario
-    
 
     registerPlayer(event: { name: string | null; views: string | null }): void {
       this.view = event.views ?? '';
+      this.name = event.name ?? '';
       // Opcional: Imprimir el valor actual del formulario en la consola
       console.log('Datos del jugador:', event.views); 
     }

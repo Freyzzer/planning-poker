@@ -1,5 +1,7 @@
-<div class="h-full">
-    <app-navbar></app-navbar>
-    <app-body-game [view]="view"></app-body-game>
-    <app-form-usuario (onRegister)="registerPlayer($event)" [isVisible]="true"></app-form-usuario>
+<div class="h-full ">
+    <app-navbar [name]="name"></app-navbar>
+    <div class="flex flex-col" id="arreglo">
+        <app-body-game [view]="view"></app-body-game>
+        <app-form-usuario (onRegister)="registerPlayer($event)" [isVisible]="true"></app-form-usuario>
+    </div>
 </div>
