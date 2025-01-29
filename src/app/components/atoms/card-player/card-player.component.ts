@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { GameState } from '../../../storage/state/game.state';
@@ -17,6 +17,7 @@ export class CardPlayerComponent {
   @Input() viewPlayer: any = '';
   @Input() score: any = '';
   @Input() isreveal: any = false;
+  @Output() clickEvent = new EventEmitter<void>();
   views: string = '';
   info: string = '';
   player$: Observable<any>;
@@ -49,6 +50,10 @@ export class CardPlayerComponent {
         this.hasCard = false;  // Si no tiene carta, lo marcamos también
       }
     });
+  }
+  
+  onClick() {
+    this.clickEvent.emit(); // Emitir el evento al componente padre
   }
 
   // Cambiar el estilo según el jugador

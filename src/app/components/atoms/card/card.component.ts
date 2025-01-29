@@ -34,8 +34,19 @@ export class CardComponent {
     }
   
   ngOnInit() {
-    this.id = localStorage.getItem('id') ?? '';
-    
+    this.store.pipe(select(selectPlayers)).subscribe(players => {
+      console.log('Jugadores actualizados:', players);
+      this.id = localStorage.getItem('id') ?? '';
+
+      players.forEach( player =>{
+        if(player.id === this.id)
+        {
+          this.view = player.view ?? '';
+          console.log('manin matese', this.view)
+        }
+      })
+    });
+
     if (this.isVotingRevealed$) {
       this.calculateCardVotes();
     } else {

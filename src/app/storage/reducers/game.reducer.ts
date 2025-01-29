@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { initialGameState } from '../state/game.state';
-import { selectCard, revealVoting, hideVoting,addPlayer, createGame, toggleRevealVotes } from '../action/game.actions';
+import { selectCard, revealVoting, hideVoting,addPlayer, createGame, toggleRevealVotes, updatePlayerView } from '../action/game.actions';
 
 export const gameReducer = createReducer(
   initialGameState,
@@ -36,6 +36,15 @@ export const gameReducer = createReducer(
         : game
     ),
     players:[...state.players,player]
+  })),
+
+  on(updatePlayerView, (state, { playerId, newView }) => ({
+    ...state,
+    players: state.players.map(player =>
+      player.id === playerId
+        ? { ...player, view: newView }
+        : player
+    )
   })),
 
   //

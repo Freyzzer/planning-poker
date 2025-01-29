@@ -1,0 +1,35 @@
+<div>
+    <button (click)="handleModal()">profile</button>
+    <div *ngIf="isvisible" class="absolute top-20 right-20 bg-amber-200 rounded-2xl">
+        <div class="px-10 py-7 flex flex-col justify-between items-center gap-10 ">
+            <p class="text-xl font-bold">Cambiar visualización</p>
+            <form [formGroup]="form">
+                <div id="role-selector" class="flex gap-x-10 justify-around">
+                    <label class="flex items-center gap-2">
+                      <input 
+                        type="radio" 
+                        name="view" 
+                        value="player" 
+                        formControlName="view"
+                        required = 'required' 
+                        class="text-blue-600 focus:ring-blue-500 focus:ring-2"
+                      />
+                      Jugador
+                    </label>
+                    <label class="flex items-center gap-2">
+                      <input 
+                        type="radio" 
+                        name="view" 
+                        value="spectator" 
+                        formControlName="view"
+                        required = 'required' 
+                        class="text-blue-600 focus:ring-blue-500 focus:ring-2"
+                      />
+                      Espectador
+                    </label>
+                  </div>
+            </form>
+            <button-submit-custom (clickEvent)="onSubmit()" [text]="'Actulizar'"></button-submit-custom>
+        </div>
+    </div>
+</div>

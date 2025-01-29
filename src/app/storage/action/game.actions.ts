@@ -22,6 +22,12 @@ export const addPlayer = createAction(
   props<{gameId: string, player: Player }>(),
 );
 
+//Actualizar view del player
+export const updatePlayerView = createAction(
+  '[Player] Update View', 
+  props<{ playerId: string, newView: string }>()
+);
+
 //Accion de crear una partida
 console.log('partida')
 export const createGame = createAction(

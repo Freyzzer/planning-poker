@@ -13,9 +13,38 @@
           [style.transform]="getPositionStyle(i, players.length)"
           class="absolute top-auto right-auto transform flex flex-col items-center"
         >
-          <app-card-player [namePlayer]="player.name"  [viewPlayer]="player.view" [score]="player.card" [isreveal]="isVotingRevealed"></app-card-player>
+          <app-card-player id=`${player.id}` [namePlayer]="player.name"  [viewPlayer]="player.view" [score]="player.card" [isreveal]="isVotingRevealed" (clickEvent)="onSubmit(player.id)"></app-card-player>
         </div>
     </ng-container>
   
+    <div *ngIf="isReveal" class="fixed inset-0 flex items-center justify-center bg-bf-primary border-3 border-[#BB65FF] p-6 rounded-2xl">
+      <form action="" [formGroup]="form">
+        <div id="role-selector" class="flex gap-x-10 justify-around">
+          <label class="flex items-center gap-2">
+            <input 
+              type="radio" 
+              name="view" 
+              value="player" 
+              formControlName="view"
+              required = 'required' 
+              class="text-blue-600 focus:ring-blue-500 focus:ring-2"
+            />
+            Jugador
+          </label>
+          <label class="flex items-center gap-2">
+            <input 
+              type="radio" 
+              name="view" 
+              value="spectator" 
+              formControlName="view"
+              required = 'required' 
+              class="text-blue-600 focus:ring-blue-500 focus:ring-2"
+            />
+            Espectador
+          </label>
+        </div>
+      </form>
+      <button-submit-custom (clickEvent)="updateView()" [text]="'Actualizar'"></button-submit-custom>
+    </div>
 
 </div>
