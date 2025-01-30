@@ -29,6 +29,7 @@ export class CardPlayerComponent {
     // Observable para verificar si el jugador ha seleccionado una carta
     this.hasCard$ = this.players$.pipe(
       map(players => {
+        if (!Array.isArray(players)) return false; // Asegura que players es un array
         const player = players.find((p: any) => p.name === this.namePlayer);
         return player ? !!player.card : false;
       })

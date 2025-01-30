@@ -38,6 +38,11 @@ onSubmit(){
     console.log('formalurio correctamente')
     this.store.dispatch(updatePlayerView(user))
   }
+  this.isvisible = false
 }
+
+  closeModal(){
+    this.isvisible = false
+  }
 
 }

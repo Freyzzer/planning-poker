@@ -5,12 +5,13 @@ import { select, Store } from '@ngrx/store';
 import { Observable, take, map } from 'rxjs';
 import { selectIsVotingRevealed, selectPlayers,selectScoringType } from '../../../storage/selectors/game.selectors';
 import { GameState, Player } from '../../../storage/state/game.state';
+import { ButtonSubmitCustomComponent } from "../button-submit-custom/button-submit-custom.component";
 
 
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [CommonModule,],
+  imports: [CommonModule, ButtonSubmitCustomComponent],
   templateUrl: './card.component.html',
 })
 export class CardComponent {
@@ -25,10 +26,10 @@ export class CardComponent {
   isPlayer = true;
   @Input() view: string = '';
   averageVote$: Observable<number>;
-  scoreOptions: string[] = [];
+  scoreOptions: string[] = ['0', '1', '3', '5', '8', '13', '21', '34', '55', '89', '?', '☕'];
   scoringType$: Observable<string>;
   isAdmin = false;
-
+  isVisible = false;
 
   constructor(private readonly store: Store<GameState>) {
     this.isVotingRevealed$ = this.store.pipe(select(selectIsVotingRevealed));
@@ -76,7 +77,7 @@ export class CardComponent {
       const player = players.find(p => p.id === this.id);
       if (player) {
         this.view = player.view ?? '';
-      }
+        this.isAdmin = true}
     });
   }
   
@@ -100,7 +101,7 @@ export class CardComponent {
   }
 
   onSubmit(){
-    this.isAdmin = !this.isAdmin
+    this.isVisible = !this.isVisible
   }
 
 

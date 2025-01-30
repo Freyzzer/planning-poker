@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NavbarComponent } from './navbar.component';
 import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
+import { ActivatedRoute } from '@angular/router';
 
 describe('NavbarComponent', () => {
   let component: NavbarComponent;
@@ -17,9 +18,16 @@ describe('NavbarComponent', () => {
     await TestBed.configureTestingModule({
       imports: [NavbarComponent],
       providers: [
+        { provide: Store, useValue: mockStore },
         {
-          provide: Store,
-          useValue: mockStore, // Proporciona el mock del Store
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              paramMap: {
+                get: (key: string) => (key === 'id' ? 'test-game-id' : null), // Mock del parámetro 'id'
+              },
+            },
+          },
         },
       ],
     })

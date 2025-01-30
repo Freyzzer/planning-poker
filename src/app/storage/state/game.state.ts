@@ -32,7 +32,7 @@ export interface Player {
     ],
     isVotingRevealed: false,
     currentSprint: 'Sprint 32',
-    scoringType: 'fibonacci',
+    scoringType: 'Fibonacci',
     games:[]
   };
   

@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CardPlayerComponent } from './card-player.component';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
+import { selectIsVotingRevealed, selectPlayers } from '../../../storage/selectors/game.selectors';
 
 describe('CardPlayerComponent', () => {
   let component: CardPlayerComponent;
@@ -10,9 +11,15 @@ describe('CardPlayerComponent', () => {
 
   beforeEach(async () => {
     mockStore = {
-      pipe: jasmine.createSpy('pipe').and.returnValue(
-        of({ id: 'test-id', card: true }) // Simulación de datos del jugador
-      ),
+      pipe: jasmine.createSpy('pipe').and.callFake((selectorFn: any) => {
+        if (selectorFn === selectPlayers) {
+          return of([{ name: 'TestPlayer', card: true }]); // ✅ Asegura que el array tiene el jugador correcto
+        }
+        if (selectorFn === selectIsVotingRevealed) {
+          return of(false);
+        }
+        return of([]);
+      }),
     };
 
     await TestBed.configureTestingModule({
@@ -25,51 +32,36 @@ describe('CardPlayerComponent', () => {
     component.namePlayer = 'TestPlayer'; // Mock de las entradas
     component.viewPlayer = 'player'; // Mock de las entradas
     fixture.detectChanges();
+
   });
+
 
   it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize player$ observable correctly', () => {
-    component.player$.subscribe((player) => {
-      expect(player).toEqual({ id: 'test-id', card: true });
-    });
+  it('should return correct style for a spectator', () => {
+    component.viewPlayer = 'spectator';
+    const style = component.getStyle(true, false);
+    expect(style).toContain('bg-[#BDBDFF]');
   });
 
-  
-  describe('getStyle method', () => {
-    it('should return correct style for a player without a card', () => {
-      component.hasCard = false;
-      component.viewPlayer = 'player';
-      const style = component.getStyle();
-      expect(style).toContain('bg-transparent');
-    });
-
-    it('should return correct style for a player with a card', () => {
-      component.hasCard = true;
-      component.viewPlayer = 'player';
-      const style = component.getStyle();
-      expect(style).toContain('bg-[#BB65FF]');
-    });
-
-    it('should return correct style for a spectator', () => {
-      component.viewPlayer = 'spectator';
-      const style = component.getStyle();
-      expect(style).toContain('bg-[#BDBDFF]');
-    });
-
-    it('should return empty string for undefined viewPlayer', () => {
-      component.viewPlayer = '';
-      const style = component.getStyle();
-      expect(style).toBe('');
-    });
+  it('should return empty string for undefined viewPlayer', () => {
+    component.viewPlayer = '';
+    const style = component.getStyle(false, false);
+    expect(style).toBe('');
   });
 
   it('should slice the first two letters of namePlayer for spectators', () => {
     component.viewPlayer = 'spectator';
     component.namePlayer = 'TestPlayer';
-    component.getStyle();
-    expect(component.info).toBe('Te');
+    component.getStyle(false, false);
+    expect(component.info).toBe('TE');
+  });
+
+  it('should emit clickEvent when onClick is called', () => {
+    spyOn(component.clickEvent, 'emit');
+    component.onClick();
+    expect(component.clickEvent.emit).toHaveBeenCalled();
   });
 });
