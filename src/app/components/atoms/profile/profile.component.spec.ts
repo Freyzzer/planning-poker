@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProfileComponent } from './profile.component';
-import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
+import { ReactiveFormsModule } from '@angular/forms';
+import { updatePlayerView } from '../../../storage/action/game.actions';
 
 describe('ProfileComponent', () => {
   let component: ProfileComponent;
@@ -9,28 +10,65 @@ describe('ProfileComponent', () => {
   let mockStore: any;
 
   beforeEach(async () => {
-    mockStore = {
-          select: jasmine.createSpy('select').and.returnValue(of([])), // Simula `select` devolviendo un observable vacío
-          dispatch: jasmine.createSpy('dispatch'), // Simula `dispatch`
-          pipe: jasmine.createSpy('pipe').and.returnValue(of([])),
-        };
+    mockStore = jasmine.createSpyObj('Store', ['dispatch']); // Mock dispatch method
+    
     await TestBed.configureTestingModule({
-      imports: [ProfileComponent],
+      imports: [ProfileComponent, ReactiveFormsModule],
       providers: [
-              {
-                provide: Store,
-                useValue: mockStore, // Proporciona el mock del Store
-              },
-            ],
-    })
-    .compileComponents();
-
+        { provide: Store, useValue: mockStore },
+      ],
+    }).compileComponents();
+    
     fixture = TestBed.createComponent(ProfileComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    // Establecer un valor inicial en el almacenamiento local para el test
+    localStorage.setItem('id', 'player123');
   });
 
-  it('should create', () => {
+  afterEach(() => {
+    // Restablecer las llamadas de los espías después de cada test
+    mockStore.dispatch.calls.reset();
+  });
+  
+  it('should create the component', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should toggle modal visibility when handleModal is called', () => {
+    component.handleModal();
+    expect(component.isvisible).toBeTrue(); // Verifica si el modal se hizo visible
+
+    component.handleModal();
+    expect(component.isvisible).toBeFalse(); // Verifica si el modal se cerró
+  });
+
+  it('should call store.dispatch when onSubmit is called with valid form', () => {
+    // Configura el formulario con valores válidos
+    component.form.setValue({ view: 'player' });
+  
+    // Llama al método onSubmit
+    component.onSubmit();
+  
+    // Verifica que se haya llamado a store.dispatch con el valor correcto
+    expect(mockStore.dispatch).toHaveBeenCalledWith(updatePlayerView({ playerId: 'player123', newView: 'player' }));
+  
+    // Verifica que el modal se haya cerrado
+    expect(component.isvisible).toBeFalse();
+  });
+  
+  it('should not call store.dispatch when form is invalid', () => {
+    component.form.setValue({ view: '' }); // Configura el formulario con un valor inválido
+
+    component.onSubmit();
+
+    expect(mockStore.dispatch).not.toHaveBeenCalled(); // No debe llamar a dispatch si el formulario es inválido
+    expect(component.isvisible).toBeFalse(); // El modal aún debe estar cerrado
+  });
+
+  it('should close the modal when closeModal is called', () => {
+    component.isvisible = true; // Asegura que el modal esté visible
+    component.closeModal();
+    expect(component.isvisible).toBeFalse(); // Verifica que el modal se haya cerrado
   });
 });

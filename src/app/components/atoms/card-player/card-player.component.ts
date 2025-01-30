@@ -53,7 +53,7 @@ export class CardPlayerComponent {
       }
 
       if (hasCard) {
-        return `${baseStyle} ${isreveal ? 'bg-transparent text-white' : 'bg-[#BB65FF] text-primary-500'} border-white`;
+        return `${baseStyle} ${isreveal ? 'bg-transparent text-white' : 'bg-[#BB65FF] text-primary-500'}`;
       }
     }
 

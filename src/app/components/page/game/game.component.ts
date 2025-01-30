@@ -8,12 +8,5 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './game.component.html',
 })
 export class GameComponent {
-  nombre:string = ''
-
-  // Mostrar la ventana emergente al cargar la página
-  ngOnInit() {
-    setTimeout(() => {
-      return '<div>dsdsdsdsddsdd </div>'
-    }, 500); 
-  }// Espera breve antes de mostrar la alerta
+  
 }

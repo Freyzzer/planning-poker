@@ -21,6 +21,7 @@ export class TableComponent {
   isVotingRevealed: boolean = false;
   players$: Observable<Player[]>;
   @Input() view = ''
+  @Input() myView = ''
   idSelected = '';
   isReveal = false;
   form: FormGroup;
@@ -33,17 +34,15 @@ export class TableComponent {
   }
   
   updateView(){
-    if(this.view === 'player')
-    {
-      const view = this.form.value.view;
-        const user = {playerId: this.idSelected, newView: view}
-        if(this.form.valid )
-        {
-          console.log('formalurio correctamente')
-          this.store.dispatch(updatePlayerView(user))
-        }
-        this.isReveal = false
-    }
+      if (this.form.valid) {
+        const view = this.form.value.view;
+        const user = { playerId: this.idSelected, newView: view };
+        console.log('Formulario enviado correctamente');
+        this.store.dispatch(updatePlayerView(user));
+        this.isReveal = false;
+      } else {
+        console.error('Formulario inválido o vista no seleccionada');
+      }
     }
 
   
@@ -64,20 +63,6 @@ export class TableComponent {
     }
   }
 
-  promedio(): number{
-    let score:number = 0;
-    let count = 0;
-
-    this.withPlayers(players => {
-      players.forEach(player => {
-        const value = player.card ?? 0;
-        score += +value;
-        count++;
-      });
-    });
-    
-    return score/count;
-  }
 
   onSubmit(id:string){
     if(this.view === 'player')
@@ -87,6 +72,15 @@ export class TableComponent {
     }
   }
 
+  closeModal(){
+    this.isReveal = false
+  }
+
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    this.updateView()
+  }
 
   getPositionStyle(index: number, total: number): string {
 

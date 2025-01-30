@@ -1,7 +1,7 @@
 <div class="h-full ">
-    <app-navbar [name]="name"></app-navbar>
+    <app-navbar [name]="name" (view)="getView($event)"></app-navbar>
     <div class="flex flex-col" id="arreglo">
-        <app-body-game [view]="view"></app-body-game>
+        <app-body-game [view]="view" [myView]="myView"></app-body-game>
         <app-form-usuario (onRegister)="registerPlayer($event)" [isVisible]="true"></app-form-usuario>
     </div>
 </div>

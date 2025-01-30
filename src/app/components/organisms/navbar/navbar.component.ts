@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ButtonSubmitCustomComponent } from '../../atoms/button-submit-custom/button-submit-custom.component';
 import { ProfileComponent } from '../../atoms/profile/profile.component';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -24,6 +24,9 @@ export class NavbarComponent {
   game$: Observable<any>;
   id = '';
   tittle = ''
+  @Output() view = new EventEmitter<{ view: Observable<string> }>(); // ✅ Emitimos el objeto correctamente
+  myView: Observable<string> = new Observable<string>();
+
 
   constructor(private readonly fb:FormBuilder, private readonly location: Location, private readonly store:Store<GameState>, private readonly route:ActivatedRoute){
     this.form = this.fb.group({
@@ -75,6 +78,9 @@ export class NavbarComponent {
     this.isVisible = false;
   }
 
-
+  getView(event: { view: Observable<string> }) {
+    console.log('View recibido en Navbar:', event.view);
+    this.view.emit(event); // ✅ Pasamos el objeto con { view: Observable<string> }
+  }
 
 }

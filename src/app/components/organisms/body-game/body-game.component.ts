@@ -20,6 +20,7 @@ export class BodyGameComponent {
   myPlayer$: Observable<any>;
   id = '';
   @Input() view: string = '';
+  @Input() myView: string = '';
 
 
   onUserRegistered(user: { view: string; name: string }) {

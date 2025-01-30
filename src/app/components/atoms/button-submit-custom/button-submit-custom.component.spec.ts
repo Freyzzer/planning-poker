@@ -20,4 +20,12 @@ describe('ButtonSubmitCustomComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should toggle text and call reveal.emit() on button click', () =>{
+    spyOn(component.clickEvent, 'emit'); // Espía al evento emitido
+    
+        // Simula el primer clic
+        component.onClick();
+        expect(component.clickEvent.emit).toHaveBeenCalled(); // Verifica que el evento fue emitido
+  })
 });

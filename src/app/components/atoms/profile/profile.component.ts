@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ButtonSubmitCustomComponent } from '../button-submit-custom/button-submit-custom.component';
 import { updatePlayerView } from '../../../storage/action/game.actions';
 import { Store } from '@ngrx/store';
 import { GameState } from '../../../storage/state/game.state';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Observable, of } from 'rxjs';
 
 
 @Component({
@@ -18,6 +19,8 @@ export class ProfileComponent {
   id = '';
   form:FormGroup;
   @Input() letters='';
+  @Output() view = new EventEmitter<{ view: Observable<string> }>();
+
 
   constructor(private readonly store:Store<GameState>, private readonly fb: FormBuilder){
     this.form = this.fb.group({
@@ -37,6 +40,7 @@ onSubmit(){
   {
     console.log('formalurio correctamente')
     this.store.dispatch(updatePlayerView(user))
+    this.view.emit({ view: of(view) }); // 🔥 Enviar un objeto con { view: Observable<string> }
   }
   this.isvisible = false
 }

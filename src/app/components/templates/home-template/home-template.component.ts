@@ -4,6 +4,7 @@ import { FormUsuarioComponent } from '../../organisms/form-usuario/form-usuario.
 import { ReactiveFormsModule} from '@angular/forms';
 import { BodyGameComponent } from '../../organisms/body-game/body-game.component';
 import { CommonModule } from '@angular/common';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-home-template',
@@ -16,7 +17,7 @@ export class HomeTemplateComponent {
     name = ''
     isVisible: boolean = false;
     nameGame = ''
-
+    myView = ''
 
     registerPlayer(event: { name: string | null; views: string | null }): void {
       this.view = event.views ?? '';
@@ -27,5 +28,12 @@ export class HomeTemplateComponent {
 
     registerName(event: {name:string}){
       this.nameGame = event.name ?? '';
+    }
+
+    getView(event: { view: Observable<string> }): void {
+      event.view.subscribe(view => {
+        this.myView = view;
+        console.log(view); // Aquí manejas el valor emitido por el observable
+      });
     }
 }
