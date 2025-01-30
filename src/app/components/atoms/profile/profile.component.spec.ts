@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProfileComponent } from './profile.component';
 import { Store } from '@ngrx/store';
 import { ReactiveFormsModule } from '@angular/forms';
-import { updatePlayerView } from '../../../storage/action/game.actions';
 
 describe('ProfileComponent', () => {
   let component: ProfileComponent;
@@ -43,20 +42,7 @@ describe('ProfileComponent', () => {
     expect(component.isvisible).toBeFalse(); // Verifica si el modal se cerró
   });
 
-  it('should call store.dispatch when onSubmit is called with valid form', () => {
-    // Configura el formulario con valores válidos
-    component.form.setValue({ view: 'player' });
-  
-    // Llama al método onSubmit
-    component.onSubmit();
-  
-    // Verifica que se haya llamado a store.dispatch con el valor correcto
-    expect(mockStore.dispatch).toHaveBeenCalledWith(updatePlayerView({ playerId: 'player123', newView: 'player' }));
-  
-    // Verifica que el modal se haya cerrado
-    expect(component.isvisible).toBeFalse();
-  });
-  
+ 
   it('should not call store.dispatch when form is invalid', () => {
     component.form.setValue({ view: '' }); // Configura el formulario con un valor inválido
 

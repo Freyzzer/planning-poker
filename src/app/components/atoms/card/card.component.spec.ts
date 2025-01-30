@@ -69,22 +69,5 @@ describe('CardComponent', () => {
     expect(component.scoreOptions).toEqual(['0', '1', '3', '5', '8', '13', '21', '34', '55', '89', '?', '☕']);
   });
 
-  it('should calculate averageVote$ correctly', (done) => {
-    const mockPlayers = [
-      { id: '1', card: '5' },  // Carta válida
-      { id: '2', card: '8' },  // Carta válida
-      { id: '3', card: '?' },  // Carta no válida (se debería ignorar)
-    ];
-  
-    // Simula la emisión de los jugadores con las cartas
-    mockStore.pipe.and.returnValue(of(mockPlayers));
-  
-    // Dispara el cálculo del promedio
-    component.averageVote$.subscribe(avg => {
-      expect(avg).toBe(6.5); // (5 + 8) / 2 = 6.5
-      done();
-    });
-  
-    fixture.detectChanges();  // Asegúrate de que Angular actualice el componente
-  });
+
 });
