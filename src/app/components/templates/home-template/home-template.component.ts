@@ -15,11 +15,17 @@ export class HomeTemplateComponent {
     view = '';
     name = ''
     isVisible: boolean = false;
+    nameGame = ''
+
 
     registerPlayer(event: { name: string | null; views: string | null }): void {
       this.view = event.views ?? '';
       this.name = event.name ?? '';
       // Opcional: Imprimir el valor actual del formulario en la consola
       console.log('Datos del jugador:', event.views); 
+    }
+
+    registerName(event: {name:string}){
+      this.nameGame = event.name ?? '';
     }
 }

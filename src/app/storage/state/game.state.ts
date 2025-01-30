@@ -17,6 +17,7 @@ export interface Player {
     players: Player[];
     isVotingRevealed: boolean; // Estado de la votación (oculto/revelado)
     currentSprint: string;  
+    scoringType: string; // Nuevo estado para el tipo de puntuación
     games: Game[];   // Ejemplo: "Sprint 32"
   }
   
@@ -31,6 +32,7 @@ export interface Player {
     ],
     isVotingRevealed: false,
     currentSprint: 'Sprint 32',
+    scoringType: 'fibonacci',
     games:[]
   };
   

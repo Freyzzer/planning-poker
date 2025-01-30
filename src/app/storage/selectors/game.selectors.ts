@@ -36,3 +36,8 @@ export const selectAdminPlayer = createSelector(
   selectPlayers,
   players => players.find(player => player.isAdmin)
 );
+
+export const selectScoringType = createSelector(
+  selectGameState,
+  (state: GameState) => state.scoringType
+);

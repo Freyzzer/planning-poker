@@ -8,6 +8,7 @@ import { selectPlayerById, selectPlayers } from '../../../storage/selectors/game
 import { CommonModule } from '@angular/common';
 
 
+
 @Component({
   selector: 'app-body-game',
   standalone: true,
@@ -23,6 +24,7 @@ export class BodyGameComponent {
 
   onUserRegistered(user: { view: string; name: string }) {
     this.view = user.view;
+
   }
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
@@ -35,7 +37,6 @@ export class BodyGameComponent {
     this.players$ = this.store.pipe(select(selectPlayers));
     this.myPlayer$ = this.store.pipe(select(selectPlayerById(this.id)));
   }
-
 
 
   private withPlayers(callback: (players: Player[]) => void): void{

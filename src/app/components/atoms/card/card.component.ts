@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { selectCard } from '../../../storage/action/game.actions';
+import { changeScoringType, selectCard } from '../../../storage/action/game.actions';
 import { select, Store } from '@ngrx/store';
 import { Observable, take, map } from 'rxjs';
-import { selectIsVotingRevealed, selectPlayers } from '../../../storage/selectors/game.selectors';
+import { selectIsVotingRevealed, selectPlayers,selectScoringType } from '../../../storage/selectors/game.selectors';
 import { GameState, Player } from '../../../storage/state/game.state';
+
 
 @Component({
   selector: 'app-card',
@@ -13,7 +14,6 @@ import { GameState, Player } from '../../../storage/state/game.state';
   templateUrl: './card.component.html',
 })
 export class CardComponent {
-  scoreOptions = ['0', '1', '3', '5', '8', '13', '21', '34', '55', '89', '?', '☕'];
   selectedCards: string[] = [];
   playerId:string ='';
   isVotingRevealed$: Observable<boolean>;
@@ -25,6 +25,10 @@ export class CardComponent {
   isPlayer = true;
   @Input() view: string = '';
   averageVote$: Observable<number>;
+  scoreOptions: string[] = [];
+  scoringType$: Observable<string>;
+  isAdmin = false;
+
 
   constructor(private readonly store: Store<GameState>) {
     this.isVotingRevealed$ = this.store.pipe(select(selectIsVotingRevealed));
@@ -50,6 +54,15 @@ export class CardComponent {
         return count > 0 ? total / count : 0;
       })
     );
+
+
+    //
+    this.scoringType$ = this.store.pipe(select(selectScoringType));
+
+    // Escuchar cambios en la puntuación
+    this.scoringType$.subscribe(type => {
+      this.updateScoreOptions(type);
+    });
   }
 
    private withPlayers(callback: (players: Player[]) => void): void{
@@ -65,6 +78,29 @@ export class CardComponent {
         this.view = player.view ?? '';
       }
     });
+  }
+  
+  onChangeScoringType(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    if (target) {
+      this.store.dispatch(changeScoringType({ scoringType: target.value })); 
+    }
+  }
+  
+  
+
+  updateScoreOptions(type: string) {
+    if (type === 'Fibonacci') {
+      this.scoreOptions = ['0', '1', '3', '5', '8', '13', '21', '34', '55', '89', '?', '☕'];
+    } else if (type === 'PowersOfTwo') {
+      this.scoreOptions = ['1', '2', '4', '8', '16', '32', '64', '128', '256', '512', '?', '☕'];
+    } else {
+      this.scoreOptions = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '?', '☕']; // Default
+    }
+  }
+
+  onSubmit(){
+    this.isAdmin = !this.isAdmin
   }
 
 

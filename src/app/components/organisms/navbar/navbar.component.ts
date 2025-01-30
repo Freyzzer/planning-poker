@@ -3,6 +3,12 @@ import { ButtonSubmitCustomComponent } from '../../atoms/button-submit-custom/bu
 import { ProfileComponent } from '../../atoms/profile/profile.component';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CommonModule, Location } from '@angular/common';
+import { select, Store } from '@ngrx/store';
+import { GameState } from '../../../storage/state/game.state';
+import { Observable } from 'rxjs';
+import { selectGameById } from '../../../storage/selectors/game.selectors';
+import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-navbar',
@@ -15,11 +21,29 @@ export class NavbarComponent {
   isVisible = false;
   url = '';
   @Input() name = '';
+  game$: Observable<any>;
+  id = '';
+  tittle = ''
 
-  constructor(private readonly fb:FormBuilder, private readonly location: Location){
+  constructor(private readonly fb:FormBuilder, private readonly location: Location, private readonly store:Store<GameState>, private readonly route:ActivatedRoute){
     this.form = this.fb.group({
       url: new FormControl('',[Validators.required])
     })
+
+    this.game$ = this.store.pipe(select(selectGameById(this.id)))
+  }
+
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    this.id = this.route.snapshot.paramMap.get('id') ?? ''
+    // Obtener el juego por ID y asignar el nombre de la partida
+    this.game$ = this.store.pipe(select(selectGameById(this.id)));
+    this.game$.subscribe(game => {
+      if (game) {
+        this.tittle = game.name; // Asigna el nombre de la partida
+      }
+    });
   }
 
   getName():string{
@@ -45,6 +69,10 @@ export class NavbarComponent {
         console.error('Error al copiar la URL:', err);
         alert('No se pudo copiar la URL. Inténtalo de nuevo.');
       });
+  }
+
+  closeModal(){
+    this.isVisible = false;
   }
 
 

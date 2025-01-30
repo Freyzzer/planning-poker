@@ -22,6 +22,12 @@ export const addPlayer = createAction(
   props<{gameId: string, player: Player }>(),
 );
 
+//Cambiar la puntuacion
+export const changeScoringType = createAction(
+  '[Game] Change Scoring Type',
+  props<{ scoringType: string }>()
+);
+
 //Actualizar view del player
 export const updatePlayerView = createAction(
   '[Player] Update View', 

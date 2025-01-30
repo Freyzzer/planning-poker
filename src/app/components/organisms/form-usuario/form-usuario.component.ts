@@ -23,7 +23,6 @@ export class FormUsuarioComponent {
   formUser: FormGroup;
   players$: Observable<any>;
   @Output() onRegister: EventEmitter<{ name: any; views: any }> = new EventEmitter();
-  
   ngOnInit(): void {
     console.log(this.route.snapshot.paramMap.get('id'));
   }

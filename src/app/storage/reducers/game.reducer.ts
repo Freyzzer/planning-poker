@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { initialGameState } from '../state/game.state';
-import { selectCard, revealVoting, hideVoting,addPlayer, createGame, toggleRevealVotes, updatePlayerView } from '../action/game.actions';
+import { selectCard, revealVoting, hideVoting,addPlayer, createGame, toggleRevealVotes, updatePlayerView, changeScoringType } from '../action/game.actions';
 
 export const gameReducer = createReducer(
   initialGameState,
@@ -51,6 +51,11 @@ export const gameReducer = createReducer(
   on(createGame, (state,{game}) =>({
     ...state,
     games:[...state.games,game]
-  }))
+  })),
+
+    on(changeScoringType, (state, { scoringType }) => ({
+      ...state,
+      scoringType
+    }))
 
 );
