@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { FormCreateGameComponent } from './components/organisms/form-create-game/form-create-game.component';
-import { HomeTemplateComponent } from './components/templates/home-template/home-template.component';
+import { FormCreateGameComponent } from './shared/components/organisms/form-create-game/form-create-game.component';
+import { HomeTemplateComponent } from './features/home-template/home-template.component';
 
 
 

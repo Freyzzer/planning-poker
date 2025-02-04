@@ -1,0 +1,100 @@
+<section class="w-full h-full flex justify-center items-center">
+  <div
+    class="relative w-1/3 h-2/4 rounded-full border-2 border-[#7444d6] flex justify-center items-center shadow-[0_0_10px_10px_rgba(187,101,255,0.05)]"
+  >
+    <div
+      class="border-2 border-[#9479e8] w-[90%] h-[85%] rounded-full flex justify-center items-center"
+    >
+      <div
+        class="border border-[#6429cd] w-[95%] h-[90%] bg-bf-primary rounded-full flex justify-center items-center"
+      >
+        <app-button-custom
+          *ngIf="
+            view === 'player' && isLoading === false"
+          (reveal)="onRevealVotes()"
+          [text]="text"
+        >
+        </app-button-custom>
+        <section class="flex flex-col justify-center items-center ">
+          <div class="container flex flex-col" *ngIf="isLoading === true">
+            <div class="">
+              <div class="circle" style="--i: 1;"></div>
+              <div class="circle" style="--i: 2;"></div>
+              <div class="circle" style="--i: 3;"></div>
+              <div class="circle" style="--i: 4;"></div>
+            </div>
+            <p class="mt-5 text-md font-medium">Contando votos</p>
+          </div>
+        </section>
+      </div>
+    </div>
+    <ng-container *ngIf="players$ | async as players">
+      <div
+        *ngFor="let player of players; let i = index"
+        [style.transform]="getPositionStyle(i, players.length)"
+        class="absolute top-1/2 left-1/2 -mt-[40px] -ml-[30px] text-center"
+      >
+        <app-card-player
+          id="`${player.id}`"
+          [namePlayer]="player.name"
+          [viewPlayer]="player.view"
+          [score]="player.card ?? ''"
+          [isreveal]="isVotingRevealed"
+          (clickEvent)="onSubmit(player.id)"
+        ></app-card-player>
+      </div>
+    </ng-container>
+  </div>
+
+  <div
+    *ngIf="isReveal"
+    class="absolute top-0 left-0 z-10 flex items-center justify-center backdrop-blur-sm w-full h-full"
+  >
+    <div
+      class="flex flex-col justify-between bg-bf-primary border-1 border-[#6429cd] rounded-2xl shadow-xl w-1/5 h-1/5"
+    >
+      <div class="bg-[#BB65FF] w-full rounded-tl-2xl rounded-t-2xl">
+        <div class="w-full flex justify-between p-3">
+          <h2 class="font-bold text-xl">Cambiar Visualización</h2>
+          <button class="font-bold text-xl" (click)="closeModal()">X</button>
+        </div>
+      </div>
+      <div class="flex flex-col items-center w-full h-full justify-around">
+        <form
+          [formGroup]="form"
+          class="w-full flex justify-center items-center"
+        >
+          <fieldset id="role-selector" class="flex gap-x-10 justify-around">
+            <Legend>Elegir Rol</Legend>
+            <label class="flex items-center gap-2">
+              <input
+                type="radio"
+                name="view"
+                value="player"
+                formControlName="view"
+                required="required"
+                class="text-blue-600 focus:ring-blue-500 focus:ring-2"
+              />
+              Jugador
+            </label>
+            <label class="flex items-center gap-2">
+              <input
+                type="radio"
+                name="view"
+                value="spectator"
+                formControlName="view"
+                required="required"
+                class="text-blue-600 focus:ring-blue-500 focus:ring-2"
+              />
+              Espectador
+            </label>
+          </fieldset>
+        </form>
+        <button-submit-custom
+          (clickEvent)="updateView()"
+          [text]="'Actualizar'"
+        ></button-submit-custom>
+      </div>
+    </div>
+  </div>
+</section>

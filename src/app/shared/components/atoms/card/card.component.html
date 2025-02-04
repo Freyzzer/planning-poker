@@ -1,0 +1,67 @@
+<section iv class="flex flex-col items-center justify-around w-full mb-10">
+  <div class="flex" *ngIf="isVotingRevealed$ | async; else allCards" >
+    <div class="flex justify-center items-center gap-4 px-40">
+      <div *ngFor="let card of cardsWithVotes$ | async" (keydown)="onKeyDown($event)" class="flex flex-col justify-center items-center">
+        <button
+          class="w-14 h-22 flex flex-col items-center justify-center bg-transparent shadow-[0px_5px_10px_0px_#6429CD99] text-xl border border-[#9c4fff] rounded-md text-white font-bold cursor-pointer hover:bg-[#9D9DA199] transition delay-[0.3] ease-in hover:-translate-y-2"
+        >
+          <span>{{ card.card }}</span>
+        </button>
+        <span>{{ card.votes }} Voto</span>
+      </div>
+    </div>
+    <div class="flex flex-col items-center gap-y-4">
+      <span>Promedio:</span>
+      <span class="text-4xl font-bold">{{ averageVote$ | async }}</span>
+    </div>
+  </div>
+  <ng-template #allCards >
+    <!-- Mostrar todas las opciones de cartas -->
+     <div *ngIf="view === 'player'" class="flex flex-col items-center justify-center w-full">
+
+      <div class="flex gap-10 items-start justify-center">
+        <h2 class="text-2xl font-semibold mb-4">Elige una carta 👇</h2>
+        <button (click)="onSubmit()" *ngIf="isAdmin" class="w-8 h-8">
+          <img src="assets/config.svg" alt="dasda" class="w-8 h-8 ">
+        </button>
+      </div>
+      <div *ngIf="isVisible" class="absolute top-0 z-10 flex items-center justify-center backdrop-blur-sm w-full h-full">
+        <div class="flex flex-col justify-between bg-primary border-1 border-[#6429cd] rounded-2xl shadow-xl w-1/4 h-1/4">
+          <div class="bg-[#BB65FF] w-full rounded-tl-2xl rounded-t-2xl">
+            <div class="w-full flex justify-between p-3">
+                <h2 class="font-bold text-xl">Cambiar puntuación</h2>
+                <button class="font-bold text-xl" (click)="onSubmit()">X</button>
+            </div>
+          </div>
+          <div class="flex flex-col items-center w-full h-full justify-around gap-4">
+            <div class="flex flex-col gap-6">
+              <label for="scoringType" class="font-medium text-xl">Seleccionar tipo de puntuación:</label>
+              <select id="scoringType" (change)="onChangeScoringType($event)" class="bg-primary px-2 py-1 border border-secundary rounded-full">
+                <option value="Fibonacci">Fibonacci</option>
+                <option value="PowersOfTwo">Potencias de 2</option>
+                <option value="normal">Personalizado</option>
+              </select>
+            </div>
+            <button-submit-custom [text]="'Actualizar'" (clickEvent)="onSubmit()"></button-submit-custom>
+          </div>
+          
+        </div>
+      </div>
+       <div class="flex justify-center gap-3" >
+         <div
+           *ngFor="let card of scoreOptions"
+           (click)="onSelectCard(card)"
+           (keydown)="onKeyDown($event)"
+           class="flex justify-center gap-3"
+         >
+           <button
+             (click)="onSelectCard(card)"
+             class="w-14 h-22 flex items-center justify-center bg-transparent shadow-[0px_0px_10px_0px_#6429CD99]  border-[2px] border-[#9c4fff] rounded-md text-white text-xl font-bold cursor-pointer hover:bg-[#9D9DA199] focus:border-none focus:text-primary focus:bg-[#E4A4FF] focus:-translate-y-2 focus:shadow-[0px_0px_15px_0px_#6429CD]  transition delay-[0.3] ease-in hover:-translate-y-2"
+           >
+             <span>{{ card }}</span>
+           </button>
+         </div>
+       </div>
+     </div>
+  </ng-template>
+</section>

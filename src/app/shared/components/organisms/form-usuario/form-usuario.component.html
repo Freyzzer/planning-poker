@@ -1,0 +1,68 @@
+<div 
+  class="fixed inset-0 flex items-center justify-center backdrop-blur-sm z-50 w-full h-full" 
+  [formGroup]="formUser" 
+  *ngIf="isVisible"
+>
+  <section class="bg-primary border-1 border-secundary w-[28%] h-[30%] flex items-center justify-center shadow-[0px_0px_12px_0px_#6429CD] rounded-2xl">
+    <form class="w-4/6 flex flex-col items-center gap-y-7 py-10">
+      <!-- Input para el nombre -->
+      <div class="w-full mb-4">
+        <label for="name" class="block text-md text-white font-semibold mb-1">Tu Nombre</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          formControlName="name"
+          required
+          class="w-full px-4 py-2 border border-secundary bg-[#6429CD14] rounded-full focus:outline-none mb-4"
+        />
+        <!-- Selección de rol -->
+        <fieldset id="role-selector" class="flex gap-x-10 justify-around">
+          <label class="flex items-center gap-2">
+            <input 
+              type="radio" 
+              name="views" 
+              value="player" 
+              formControlName="views"
+              required
+              class="custom-radio flex justify-center items-center text-white"
+            />
+            Jugador
+          </label>
+          <label class="flex items-center gap-2">
+            <input 
+              type="radio" 
+              name="views" 
+              value="spectator" 
+              formControlName="views"
+              required
+              class="custom-radio flex justify-center items-center"
+            />
+            Espectador
+          </label>
+        </fieldset>
+      </div>
+
+
+      <!-- Mensajes de error -->
+      <div 
+      class="text-red-500 overflow-hidden text-ellipsis"
+      *ngIf="formErrors.name"
+    >
+      <p>{{ formErrors.name }}</p>
+      </div>
+      <div 
+        class="text-red-500 overflow-hidden text-ellipsis"
+        *ngIf="formUser.get('views')?.errors && formUser.get('views')?.dirty"
+      >
+        <span *ngFor="let error of getFormErrors('views')">{{ error }}</span>
+      </div>
+
+      <!-- Botón para enviar -->
+      <button-submit-custom 
+        [text]="'Continuar'" 
+        (clickEvent)="onSubmit()" 
+      ></button-submit-custom>
+    </form>
+  </section>
+</div>
